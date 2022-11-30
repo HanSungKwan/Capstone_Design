@@ -4,7 +4,7 @@ app = flask.Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def handle_request():
-    return "server sucsses"
+    return "server sucses"
 
 
 @app.route("/users/<user>/repos", methods=['GET', 'POST'])
