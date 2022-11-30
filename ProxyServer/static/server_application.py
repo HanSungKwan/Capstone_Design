@@ -4,7 +4,7 @@ app = flask.Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def handle_request():
-    return "박인선 살빼자"
+    return "서버성공"
 
 
 @app.route("/users/<user>/repos", methods=['GET', 'POST'])
