@@ -1,0 +1,54 @@
+/**
+안드로이드와 파이썬 서버간 TCP 통신하기
+socket= 프로세스가 데이터를 보내거나 받기 위한 창구 역할
+socket.bind() - 서버를 만들 때 필요한 메서드로튜플 형식
+socket.listen() - 서버가 데이터 수신을 기다리는 상태
+socket.accept() - 소켓에 누군가가 접속하여 연결되었을 때 결과 값이 튜블로 return 되는 항수
+socket.sendall(), socket.recv() - 데이터를 송수신하는 메서드
+while문으로 서버와의 데이터 송수신 상태 유지**/
+
+
+import socket
+ 
+host = ''
+port = 80
+ 
+server_sock = socket.socket(socket.AF_INET)
+server_sock.bind((host, port))
+server_sock.listen(1)
+ 
+while True:
+    print("기다리는 중")
+    client_sock, addr = server_sock.accept()
+ 
+    print('Connected by', addr)
+    data = client_sock.recv(1024)
+    data = data.decode()
+    print(data)
+ 
+    while True:
+        # 클라이언트에서 받을 문자열의 길이
+        data = client_sock.recv(4)
+        length = int.from_bytes(data, "little")
+        # 클라이언트에서 문자열 받기
+        msg = client_sock.recv(length)
+ 
+        # data를 더 이상 받을 수 없을 때
+        if len(data) <= 0:
+            break
+ 
+        msg = msg.decode()
+        print(msg)
+ 
+        msg = "eco: " + msg
+        data = msg.encode()
+ 
+        length = len(data)
+        # 클라이언트에 문자열 길이 보내기
+        client_sock.sendall(length.to_bytes(4, byteorder="little"))
+        # 클라이언트에 문자열 보내기
+        client_sock.sendall(data)
+ 
+    client_sock.close()
+ 
+server_sock.close()
