@@ -1,16 +1,19 @@
-import flask
+# start : python application.py
 
-app = flask.Flask(__name__)
+#!/usr/bin/env python 
+#coding: utf-8
 
-@app.route('/', methods=['GET', 'POST'])
-def handle_request():
-    return "server sucses"
+from flask import Flask
 
+application = Flask(__name__)
 
-@app.route("/users/<user>/repos", methods=['GET', 'POST'])
-def user_request(user):
-    return f"hello,{user}"
+@application.route("/")
+def hello():
+    return "Hello goorm!"
 
+@application.route("/db")
+def db():
+    return "db  DB"
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80)
+if __name__ == "__main__":
+    application.run(host='0.0.0.0', port=80)
