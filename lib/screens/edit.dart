@@ -12,6 +12,7 @@ class EditPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("새 프로젝트"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.delete),
@@ -35,7 +36,7 @@ class EditPage extends StatelessWidget {
             //obscureText: true, 암호화됨
             decoration: InputDecoration(
               //border: OutlineInputBorder(), textfield 박스 유무
-              hintText: '제목을 적어주세요.',
+              hintText: '프로젝트명을 적어주세요.',
             ),
           ),
           Padding(padding: EdgeInsets.all(10)), // textfield 사이 간격
@@ -44,7 +45,7 @@ class EditPage extends StatelessWidget {
             //obscureText: true, 암호화됨
             decoration: InputDecoration(
               //border: OutlineInputBorder(), textfield박스 유무
-              hintText: '아무거나 적어라 임마들아.',
+              hintText: '아무정보나 입력해주세요.',
             ),
           ),
         ],

@@ -2,6 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'UserInput.dart';
+import 'LoginBtn.dart';
 
 class MyLoginPage extends StatefulWidget {
   // const MyLoginPage({Key? key}) : super(key: key);
@@ -12,128 +14,85 @@ class MyLoginPage extends StatefulWidget {
   State<MyLoginPage> createState() => _MyLoginPageState();
 }
 
-class _MyLoginPageState extends State<MyLoginPage> {
 
+class _MyLoginPageState extends State<MyLoginPage> {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    final ButtonStyle style = ElevatedButton.styleFrom(
-        textStyle: const TextStyle(fontSize: 40),
-        minimumSize: Size(200, 100));
-
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(231, 254, 239, 1),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Hello',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-              ),
-              ),
-              SizedBox(height: 20),
-
-
-              // email textfield
-              //test
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Email',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-
-              // password textfield
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Password',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-
-              //sign in button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.lightGreen,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Text(
-                     'Sign In',
-                     style: TextStyle(
-                       color: Colors.white,
-                       fontWeight: FontWeight.bold,
-                       fontSize: 18,
-                     ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-
-              // not a member? register now
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Not a member?',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){},
-                    child: Text(
-                      ' Register now',
-                      style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                     ),
-                    ),
-                  ),
-                ],
-              ),
-
-            ],
-          ),
+    return MaterialApp(
+        title: 'Login UI',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
         ),
-      )
+        home: Scaffold(
+          body: Container(
+              alignment: Alignment.center,
+              child: makeBody()
+          ),
+        )
     );
   }
+}
+
+Widget makeBody() {
+
+  // // svg 배경이미지 준비
+  // final String assetName = 'imgs/login_bg.svg';
+  // final Widget loginBgImage = SvgPicture.asset(
+  //   assetName,
+  //   width: double.infinity, // 가로 최대
+  //   height: 300,
+  // );
+
+  return ListView(
+    children: [
+      Column(
+        children: [
+          // loginBgImage,
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 0, left: 30, right: 30, top: 38),
+          //   child: LoginTitleSection(),
+          // ),
+          Padding(
+              padding: const EdgeInsets.only(bottom: 68, left: 30, right: 30, top: 40),
+              child: Column(
+                children: [
+                  // 이메일 입력
+                  UserInput(hint: "이메일"),
+                  SizedBox(height: 38),
+                  UserInput(hint: "비밀번호", isSecure: true),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Spacer(),
+                      Text(
+                        '비밀번호를 잊으셨나요?',
+                        style: TextStyle(
+                          color: Color.fromRGBO(108, 127, 144, 1),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400, // regular
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
+          ),
+          Text(
+              '회원 가입하러 가기',
+              style: TextStyle(
+                color: Color.fromRGBO(108, 127, 144, 1),
+                fontSize: 14,
+                fontWeight: FontWeight.w400, // regular
+              )
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 40, left: 30, right: 30),
+            child: LoginBtn(),
+          ),
+        ],
+      ),
+    ],
+  );
 }

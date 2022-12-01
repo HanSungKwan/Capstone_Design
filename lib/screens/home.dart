@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:crypto/crypto.dart';
 import 'package:my_first_project/database/memo.dart';
 import 'package:my_first_project/database/db.dart';
+import 'package:my_first_project/screens/view.dart';
 import 'edit.dart';
 
 // class MyHomePage extends StatefulWidget {
@@ -11,15 +14,18 @@ import 'edit.dart';
 //   @override
 //   State<MyHomePage> createState() => _MyHomePageState();
 // }
+class MainPage extends StatefulWidget{
+  HomePage createState()=> HomePage();
+}
 
-class _MyHomePageState extends StatelessWidget {
+class HomePage extends State<MainPage> {
   String deleteId = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("내 프로젝트"),
       ),
       body: Column(
         children: <Widget>[
@@ -91,10 +97,11 @@ class _MyHomePageState extends StatelessWidget {
         if ((Snap.data as List).length == 0) {
           return Container(
             alignment: Alignment.center,
-            child: Text("프로젝트 생성해봐라제발\n\n\n\n",
+            child: Text("프로젝트를 추가해주세요.\n\n\n\n",
               style: TextStyle(fontSize: 15, color: Colors.black54),
             ),);
         }
+
         return ListView.builder(
           physics: BouncingScrollPhysics(),
           padding: EdgeInsets.all(20),
@@ -103,6 +110,9 @@ class _MyHomePageState extends StatelessWidget {
             Memo memo = (Snap.data as List)[index];
             return InkWell(
               onTap: (){},
+                //Navigator.push(
+                //    parentContext, CupertinoPageRoute(builder: (context) => ViewPage(id: memo.id)));
+
               onLongPress: (){
                 deleteId = memo.id;
                 showAlertDialog(parentContext);
