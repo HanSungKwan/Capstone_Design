@@ -1,9 +1,21 @@
-from flask import Flask, request
+# start : python application.py
 
-app = Flask("__name__")
+#!/usr/bin/env python 
+#coding: utf-8
 
-@app.route('/')
-def index():
-    return "Hello Wrold"
+from flask import Flask
+import sqlalchemy as sqalc
 
-app.run(host="0.0.0.0", port=3833)
+application = Flask(__name__)
+
+@application.route("/")
+def hello():
+    return "Hello goorm!"
+
+@application.route("/db")
+def db():
+    return "db  DB"
+
+if __name__ == "__main__":
+    print(f"sqlAchemy version is {sqalc.__version__}")
+    application.run(host='0.0.0.0', port=3833)
