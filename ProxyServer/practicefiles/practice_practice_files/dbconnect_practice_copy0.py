@@ -1,3 +1,5 @@
+# orm을 활용하자.
+
 from sqlalchemy import SQLAlchemy, create_engine, text
 from sqlalchemy.orm import Session
 
