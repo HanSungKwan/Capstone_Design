@@ -1,8 +1,3 @@
-# start : python application.py
-
-#!/usr/bin/env python 
-#coding: utf-8
-
 from flask import Flask, request, session
 import sqlalchemy as sqalc
 
