@@ -7,7 +7,7 @@
 
 from flask import Flask, request, session, redirect
 import sqlalchemy as sqalc
-from dbconnect_prac_automap import DBConnect
+from dbconnect_automap_test import DBConnect
 
 app = Flask(__name__)
 
@@ -24,9 +24,9 @@ def login():
     # 사용자의 post -> 보안
     if request.method == 'POST': # post만 남길경우 삭제할 것.
         posted_json= request.get_json()
-        user_id = posted_json['id'] # 4) 사용자의 '로그인 폼' 데이터 -> DB와 비교 예정
+        # 4) 사용자의 '로그인 폼' 데이터 -> DB와 비교 예정
+        user_id = posted_json['id']
         user_pw = posted_json['password']
-        #print(f'user_id from form data; type is {type(user_id)}')
         # 5) DB 쿼리 요청 -> form 데이터 검증
         result_sig= dbconn.login_func(check_id= user_id, check_pw= user_pw) # 로그인 검사 신호
         # 6) 검증 결과(T)면, flask세션에 id 등록
@@ -43,10 +43,8 @@ if __name__ == "__main__":
     # 1) db_connect와 연결 설정 -> 쿼리 가능.
     # "mysql+mysqldb://root:1234@localhost:3306/UserDB"
     dbconn= DBConnect(DBMS_name='mysql',
-                      DBMS_id= 'root',
-                      DBMS_pw= '1234',
-                      DBMS_host= 'localhost',
-                      DBMS_port= '3306',
+                      DBMS_id= 'root', DBMS_pw= '1234',
+                      DBMS_host= 'localhost', DBMS_port= '3306',
                       DBMS_useDB= 'UserDB')
     
     # 2) flask 구동 -> url 사용 가능.
