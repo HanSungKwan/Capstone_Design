@@ -1,11 +1,26 @@
 # orm을 활용하자.
-from sqlalchemy import create_engine, text, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import Session, declarative_base, Session
+from sqlalchemy import create_engine, Column, ForeignKey
+from sqlalchemy import text, select, Integer, String
+from sqlalchemy.orm import Session, declarative_base
+
+engine= self.__engine = create_engine( # orm매핑을 위한 db설정
+                "mysql+mysqldb://root:1234@localhost:3306/UserDB",
+                echo=True)
+
+Base= declarative_base() # 데이터orm 토대 생성
+
+class Users(Base): # DB 데이터 orm형식에 맞춰 테이블을 클래스로 매핑
+            __tablename__ = "users"
+            
+            id= Column(String(20), primary_key=True) # id(varchar(20))
+            password= Column(String(20)) # password(varchar(20))
+
 
 class DBConnect:
     __dbms_name, __dbms_id, __dbms_pw, __dbms_host, __dbms_port, __dbms_useDB= '', '', '', '', '', ''
     __engine= None
     __Base= None
+    __Users= None
     def __init__(self, DBMS_name:str='',
                  DBMS_id:str='', DBMS_pw:str='',
                  DBMS_host:str='', DBMS_port:str='',
@@ -23,25 +38,28 @@ class DBConnect:
             
         self.__Base = declarative_base() # 데이터orm 토대 생성
         
-        class Users(self.__Base): # DB 데이터 orm에 매핑
+        class Users(self.__Base): # DB 데이터 orm형식에 맞춰 테이블을 클래스로 매핑
             __tablename__ = "users"
             
             id= Column(String(20), primary_key=True) # id(varchar(20))
             password= Column(String(20)) # password(varchar(20))
-                        
+            
+        self.__Users= Users()
             
     def login_func(self, check_id:str, check_pw:str):
-        if self.__Base != None:
+        if self.__Users != None:
             # Base가 설정되었다면, 테이블에 세션생성 후 쿼리
             with Session(self.__engine) as session:
                 session.begin()
-                results= session.query(Users.id, Users.password).filter_by(Users.id == check_id).firlst()
-                print(results)
+                results= session.execute(select(self.__Users).where(self.__Users.id== check_id)).scalars()
+                #results= session.query(self.__Users).filter_by(self.__Users.id == check_id).first()
                 return results
         else:
             # Base 설정 안되었을 시, 오류 처리(나중에 수정할 것)
             print("error occured")
 
+        
+            
 # with engine.connect() as conn:
 #     result = conn.execute(text("SELECT * FROM users"))
 #     print(result.all())

@@ -7,7 +7,7 @@
 
 from flask import Flask, request, session, redirect
 import sqlalchemy as sqalc
-from dbconnect_practice_copy0 import DBConnect
+from dbconnect_prac_automap import DBConnect
 
 app = Flask(__name__)
 

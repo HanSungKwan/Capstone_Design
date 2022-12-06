@@ -7,7 +7,7 @@
 
 from flask import Flask, request, session, redirect
 import sqlalchemy as sqalc
-from dbconnect_practice_copy0 import DBConnect
+from dbconnect_prac_automap import DBConnect
 
 app = Flask(__name__)
 
@@ -28,10 +28,13 @@ def login():
         user_pw = posted_json['password']
         #print(f'user_id from form data; type is {type(user_id)}')
         # 5) DB 쿼리 요청 -> form 데이터 검증
-        results= dbconn.login_func(check_id= user_id, check_pw= user_pw)
+        result_sig= dbconn.login_func(check_id= user_id, check_pw= user_pw) # 로그인 검사 신호
         # 6) 검증 결과(T)면, flask세션에 id 등록
-        #session['id'] = user_id
-        return f"""'user_id: {user_id}' and 'user_password: {user_pw}'"""
+        if result_sig:
+            pass
+            #session['id'] = user_id
+        #return f"""'user_id: {user_id}' and 'user_password: {user_pw}'"""
+        return f"{str(result_sig)}"
     else:
         #return show_the_login_form()
         pass
