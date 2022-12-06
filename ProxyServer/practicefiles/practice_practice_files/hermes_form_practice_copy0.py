@@ -7,6 +7,7 @@
 
 from flask import Flask, request, session
 import sqlalchemy as sqalc
+from dbconnect_practice_copy0 import DBConnect
 
 app = Flask(__name__)
 
@@ -34,5 +35,13 @@ def login():
     
 if __name__ == "__main__":
     # 1) db_connect와 연결 설정 -> 쿼리 가능.
+    # "mysql+mysqldb://root:1234@localhost:3306/UserDB"
+    DBConnect(DBMS_name='mysql',
+                 DBMS_id= 'root',
+                 DBMS_pw= '1234',
+                 DBMS_host= 'localhost',
+                 DBMS_port= '3306',
+                 DBMS_useDB= 'UserDB')
+    
     # 2) flask 구동 -> url 사용 가능.
     app.run(host='0.0.0.0', port=3833)
