@@ -29,8 +29,8 @@ def register():
 def login():
     if request.method == 'POST':
         #return do_the_login()
-        test= request.form["test"]
-        #test= request.get_json()
+        #test= request.form["test"]
+        test= request.get_json()
         #test= request.is_json()
         #test = request.host_url
         return f'{test}'

@@ -1,26 +1,24 @@
 # orm을 활용하자.
-
-from sqlalchemy import SQLAlchemy, create_engine, text, Column, ForeignKey, Integer, String
+from sqlalchemy import create_engine, text, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import Session, declarative_base, Session
 
 class DBConnect:
     __dbms_name, __dbms_id, __dbms_pw, __dbms_host, __dbms_port, __dbms_useDB= '', '', '', '', '', ''
+    __engine= None
     __Base= None
     def __init__(self, DBMS_name:str='',
-                 DBMS_id:str='',
-                 DBMS_pw:str='',
-                 DBMS_host:str='',
-                 DBMS_port:str='',
+                 DBMS_id:str='', DBMS_pw:str='',
+                 DBMS_host:str='', DBMS_port:str='',
                  DBMS_useDB:str=''):
         self.__dbms_name, self.__dbms_id, self.__dbms_pw= DBMS_name, DBMS_id, DBMS_pw
         self.__dbms_host, self.__dbms_port, self.__dbms_useDB= DBMS_host, DBMS_port, DBMS_useDB
         
         # DBMS_name 입력시 사용할 URL지정
         # temp코드; DBMS별 코드 추가 예정
-        if __dbms_name == 'mysql' or __dbms_name == 'MYSQL':
-            engine = create_engine( # orm매핑을 위한 db설정
+        if self.__dbms_name == 'mysql' or self.__dbms_name == 'MYSQL':
+            self.__engine = create_engine( # orm매핑을 위한 db설정
                 #"mysql+mysqldb://root:1234@localhost:3306/UserDB"
-                f"mysql+mysqldb://{__dbms_id}:{__dbms_pw}@{__dbms_host}:{__dbms_port}/{__dbms_useDB}",
+                f"mysql+pymysql://{self.__dbms_id}:{self.__dbms_pw}@{self.__dbms_host}:{self.__dbms_port}/{self.__dbms_useDB}",
                 echo=True)
             
         self.__Base = declarative_base() # 데이터orm 토대 생성
@@ -30,14 +28,16 @@ class DBConnect:
             
             id= Column(String(20), primary_key=True) # id(varchar(20))
             password= Column(String(20)) # password(varchar(20))
+                        
             
     def login_func(self, check_id:str, check_pw:str):
         if self.__Base != None:
             # Base가 설정되었다면, 테이블에 세션생성 후 쿼리
-            with Session(engine) as session:
+            with Session(self.__engine) as session:
                 session.begin()
                 results= session.query(Users.id, Users.password).filter_by(Users.id == check_id).firlst()
                 print(results)
+                return results
         else:
             # Base 설정 안되었을 시, 오류 처리(나중에 수정할 것)
             print("error occured")
