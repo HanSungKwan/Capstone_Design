@@ -46,4 +46,4 @@ if __name__ == "__main__":
                       DBMS_useDB= 'UserDB')
     
     # 2) flask 구동 -> url 사용 가능.
-    app.run(host='0.0.0.0', port=3833)
+    app.run(host='0.0.0.0', port=3833, debug=True)

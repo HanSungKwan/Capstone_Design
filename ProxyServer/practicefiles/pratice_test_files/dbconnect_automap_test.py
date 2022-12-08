@@ -38,7 +38,8 @@ class DBConnect:
             result= self.__session.execute(
                 select(self.__Users.id).where((self.__Users.id== check_id)&(self.__Users.password== check_pw))
             ).scalars()
-            
+            self.__session.commit()
+            self.__session.close()
             # for info in result:
             #     print(f"{type(info)}")
             if len(result.all())== 1: # id는 pk이므로, id만 검색하더라도 '한 줄'이 나와야함
@@ -49,5 +50,4 @@ class DBConnect:
         else:
             # Base 설정 안되었을 시, 오류 처리(나중에 수정할 것)
             print("error occured")
-        self.__session.commit()
-        self.__session.close()
+        

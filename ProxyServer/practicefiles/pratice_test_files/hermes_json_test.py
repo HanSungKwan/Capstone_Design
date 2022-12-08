@@ -5,7 +5,7 @@
 
 # flask 구동과 db_sql을 분리하자.
 
-from flask import Flask, request, session, redirect
+from flask import Flask, request, session, redirect, url_for
 import sqlalchemy as sqalc
 from dbconnect_automap_test import DBConnect
 
@@ -15,7 +15,10 @@ app.secret_key = "6f889680e52605e7ffab427d59811231400beb70c7edbadd6d62640d5bdec4
  
 @app.route("/")
 def hello():
-    return "Hello goorm!"
+    if user_id in session:
+        return f"Hello {user_id} goorm!"
+    else:
+        return "Hello John!"
 
 # 3) 로그인 url 개설 -> 클라와 flask세션 연결을 위해서
 # 플라스크 세션 사용할 것; session.get
@@ -29,12 +32,10 @@ def login():
         user_pw = posted_json['password']
         # 5) DB 쿼리 요청 -> form 데이터 검증
         result_sig= dbconn.login_func(check_id= user_id, check_pw= user_pw) # 로그인 검사 신호
-        # 6) 검증 결과(T)면, flask세션에 id 등록
+        # 6) 검증 결과(T)면, 로그인(신분 확인) 성공; flask세션에 id 등록
         if result_sig:
-            pass
-            #session['id'] = user_id
-        #return f"""'user_id: {user_id}' and 'user_password: {user_pw}'"""
-        return f"{str(result_sig)}"
+            session['user_id'] = user_id
+            return redirect(url_for("hello"))
     else:
         #return show_the_login_form()
         pass
